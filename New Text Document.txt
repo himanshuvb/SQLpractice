@@ -1,0 +1,193 @@
+mysql> select ename,hiredate,datediff(curdate(),hiredate)/365 Experience
+    -> from emp;
++--------+------------+------------+
+| ename  | hiredate   | Experience |
++--------+------------+------------+
+| SMITH  | 1980-12-17 |    42.8466 |
+| ALLEN  | 1981-02-20 |    42.6685 |
+| WARD   | 1981-02-22 |    42.6630 |
+| JONES  | 1981-04-02 |    42.5562 |
+| MARTIN | 1981-09-28 |    42.0658 |
+| BLAKE  | 1981-05-01 |    42.4767 |
+| CLARK  | 1981-06-09 |    42.3699 |
+| SCOTT  | 1982-12-09 |    40.8685 |
+| KING   | 1981-11-17 |    41.9288 |
+| TURNER | 1981-09-08 |    42.1205 |
+| ADAMS  | 1983-01-12 |    40.7753 |
+| JAMES  | 1981-12-03 |    41.8849 |
+| FORD   | 1981-12-03 |    41.8849 |
+| MILLER | 1982-01-23 |    41.7452 |
++--------+------------+---------
+
+
+
+mysql> select datediff('2020-01-01','2019-01-01')
+    -> ;
++-------------------------------------+
+| datediff('2020-01-01','2019-01-01') |
++-------------------------------------+
+|                                 365 |
++-------------------------------------+
+1 row in set (0.02 sec)
+
+mysql> select ename,hiredate,datediff(curdate(),hiredate)/365
+    -> from emp;
++--------+------------+----------------------------------+
+| ename  | hiredate   | datediff(curdate(),hiredate)/365 |
++--------+------------+----------------------------------+
+| SMITH  | 1980-12-17 |                          42.8466 |
+| ALLEN  | 1981-02-20 |                          42.6685 |
+| WARD   | 1981-02-22 |                          42.6630 |
+| JONES  | 1981-04-02 |                          42.5562 |
+| MARTIN | 1981-09-28 |                          42.0658 |
+| BLAKE  | 1981-05-01 |                          42.4767 |
+| CLARK  | 1981-06-09 |                          42.3699 |
+| SCOTT  | 1982-12-09 |                          40.8685 |
+| KING   | 1981-11-17 |                          41.9288 |
+| TURNER | 1981-09-08 |                          42.1205 |
+| ADAMS  | 1983-01-12 |                          40.7753 |
+| JAMES  | 1981-12-03 |                          41.8849 |
+| FORD   | 1981-12-03 |                          41.8849 |
+| MILLER | 1982-01-23 |                          41.7452 |
++--------+------------+----------------------------------+
+14 rows in set (0.01 sec)
+
+mysql> select ename,hiredate,floor(datediff(curdate(),hiredate)/365)
+    -> from emp;
+
+
+
+
+
+
+
+
+
++--------+------------+-----------------------------------------+
+| ename  | hiredate   | floor(datediff(curdate(),hiredate)/365) |
++--------+------------+-----------------------------------------+
+| SMITH  | 1980-12-17 |                                      42 |
+| ALLEN  | 1981-02-20 |                                      42 |
+| WARD   | 1981-02-22 |                                      42 |
+| JONES  | 1981-04-02 |                                      42 |
+| MARTIN | 1981-09-28 |                                      42 |
+| BLAKE  | 1981-05-01 |                                      42 |
+| CLARK  | 1981-06-09 |                                      42 |
+| SCOTT  | 1982-12-09 |                                      40 |
+| KING   | 1981-11-17 |                                      41 |
+| TURNER | 1981-09-08 |                                      42 |
+| ADAMS  | 1983-01-12 |                                      40 |
+| JAMES  | 1981-12-03 |                                      41 |
+| FORD   | 1981-12-03 |                                      41 |
+| MILLER | 1982-01-23 |                                      41 |
++--------+------------+-----------------------------------------+
+14 rows in set (0.00 sec)
+
+
+
+
+mysql> select ename,hiredate,floor(datediff(curdate(),hiredate)/365)
+    -> from emp
+    -> where datediff(curdate(),hiredate)/365 > 40;
++--------+------------+-----------------------------------------+
+| ename  | hiredate   | floor(datediff(curdate(),hiredate)/365) |
++--------+------------+-----------------------------------------+
+| SMITH  | 1980-12-17 |                                      42 |
+| ALLEN  | 1981-02-20 |                                      42 |
+| WARD   | 1981-02-22 |                                      42 |
+| JONES  | 1981-04-02 |                                      42 |
+| MARTIN | 1981-09-28 |                                      42 |
+| BLAKE  | 1981-05-01 |                                      42 |
+| CLARK  | 1981-06-09 |                                      42 |
+| SCOTT  | 1982-12-09 |                                      40 |
+| KING   | 1981-11-17 |                                      41 |
+| TURNER | 1981-09-08 |                                      42 |
+| ADAMS  | 1983-01-12 |                                      40 |
+| JAMES  | 1981-12-03 |                                      41 |
+| FORD   | 1981-12-03 |                                      41 |
+| MILLER | 1982-01-23 |                                      41 |
++--------+------------+-----------------------------------------+
+14 rows in set (0.00 sec)
+
+
+Hypothetical
+
+
+find out medicine that are going to be expired in 3 months???????
+
+
+ 
+Select mname,expdate,datediff(expdate,curdate())
+from medicine
+where datediff(expdate,curdate())<=90;
+
+
+Select mname,expdate,datediff(expdate,curdate())
+from medicine
+where datediff(expdate,curdate()) between 0 and 90;
+
+
+EXPIRED
+
+
+Select mname,expdate,datediff(expdate,curdate())
+from medicine
+where datediff(expdate,curdate())<0;
+
+
+
+date_add
+
+
+mysql> select date_add(date_add(date_add(curdate(),interval 2 year),interval 3 month),interval 4 day);
++-----------------------------------------------------------------------------------------+
+| date_add(date_add(date_add(curdate(),interval 2 year),interval 3 month),interval 4 day) |
++-----------------------------------------------------------------------------------------+
+| 2026-01-16                                                                              |
++-----------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+
+mysql> select * from emp
+    -> where (month(hiredate)=8 and year(hiredate)=1980) or
+    -> (month(hiredate)=9 and year(hiredate)=1981);
++-------+--------+----------+------+------------+---------+---------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO |
++-------+--------+----------+------+------------+---------+---------+--------+
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1250.00 | 1400.00 |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |
++-------+--------+----------+------+------------+---------+---------+--------+
+2 rows in set (0.00 sec)
+
+
+
+hired on which day
+
+
+mysql> select dayname(hiredate) from emp
+    -> where (month(hiredate)=8 and year(hiredate)=1980) or
+    -> (month(hiredate)=9 and year(hiredate)=1981);
++-------------------+
+| dayname(hiredate) |
++-------------------+
+| Monday            |
+| Tuesday           |
++-------------------+
+2 rows in set (0.01 sec)
+
+
+
+mysql> select last_day(curdate());
++---------------------+
+| last_day(curdate()) |
++---------------------+
+| 2023-10-31          |
++---------------------+
+1 row in set (0.00 sec)
+
+
+
+
+ 

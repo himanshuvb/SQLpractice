@@ -1,0 +1,204 @@
+Q2}1}
+
+mysql> select * from emp
+    -> where sal > 1250 and deptno=30;
++-------+--------+----------+------+------------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM   | DEPTNO |
++-------+--------+----------+------+------------+---------+--------+--------+
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1600.00 | 300.00 |     30 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |   NULL |     30 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |   0.00 |     30 |
++-------+--------+----------+------+------------+---------+--------+--------+
+3 rows in set (0.00 sec)
+12}
+mysql> select max(sal) from emp;
++----------+
+| max(sal) |
++----------+
+|  3000.00 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select min(sal) from emp;
++----------+
+| min(sal) |
++----------+
+|   800.00 |
++----------+
+1 row in set (0.00 sec)
+13}
+mysql> select count(ename) from emp
+    -> where comm is NULL;
++--------------+
+| count(ename) |
++--------------+
+|           10 |
++--------------+
+1 row in set (0.01 sec)
+16}
+mysql> select max(sal),deptno
+    -> from emp
+    -> where deptno > 15
+    -> group by deptno
+    -> order by deptno;
++----------+--------+
+| max(sal) | deptno |
++----------+--------+
+|  3000.00 |     20 |
+|  2850.00 |     30 |
++----------+--------+
+2 rows in set (0.00 sec)
+18}
+
+mysql> select deptno from emp
+    -> group by deptno
+    -> having count(*) >= 5;
++--------+
+| deptno |
++--------+
+|     20 |
+|     30 |
++--------+
+2 rows in set (0.00 sec)
+19}
+mysql> select count(*),job from emp
+    -> where sal>2000
+    -> group by job;
++----------+-----------+
+| count(*) | job       |
++----------+-----------+
+|        3 | MANAGER   |
+|        2 | ANALYST   |
+|        1 | PRESIDENT |
+|        1 | CLERK     |
++----------+-----------+
+4 rows in set (0.00 sec)
+21}
+mysql> select lpad(ename,15," "),job namae from emp;
++--------------------+-----------+
+| lpad(ename,15," ") | namae     |
++--------------------+-----------+
+|           SMITH    | CLERK     |
+|           ALLEN    | SALESMAN  |
+|            WARD    | SALESMAN  |
+|           JONES    | MANAGER   |
+|          MARTIN    | SALESMAN  |
+|           BLAKE    | MANAGER   |
+|           CLARK    | MANAGER   |
+|           SCOTT    | ANALYST   |
+|            KING    | PRESIDENT |
+|          TURNER    | SALESMAN  |
+|           ADAMS    | CLERK     |
+|           JAMES    | CLERK     |
+|            FORD    | ANALYST   |
+|          MILLER    | CLERK     |
++--------------------+-----------+
+14 rows in set (0.00 sec)
+30}
+mysql> select empno as empis , ename as name , sal as sal, comm,
+    -> case
+    -> when deptno=10 then "Hr"
+    -> when deptno=20 then "Admin"
+    -> when deptno=30 then "accounts"
+    -> end as empo
+    -> from emp;
++-------+--------+---------+---------+----------+
+| empis | name   | sal     | comm    | empo     |
++-------+--------+---------+---------+----------+
+|  7369 | SMITH  |  800.00 |    NULL | Admin    |
+|  7499 | ALLEN  | 1600.00 |  300.00 | accounts |
+|  7521 | WARD   | 1250.00 |  500.00 | accounts |
+|  7566 | JONES  | 2975.00 |    NULL | Admin    |
+|  7654 | MARTIN | 1250.00 | 1400.00 | accounts |
+|  7698 | BLAKE  | 2850.00 |    NULL | accounts |
+|  7782 | CLARK  | 2850.00 |    NULL | Hr       |
+|  7788 | SCOTT  | 3000.00 |    NULL | Admin    |
+|  7839 | KING   | 2850.00 |    NULL | Hr       |
+|  7844 | TURNER | 1500.00 |    0.00 | accounts |
+|  7876 | ADAMS  | 1100.00 |    NULL | Admin    |
+|  7900 | JAMES  |  950.00 |    NULL | accounts |
+|  7902 | FORD   | 3000.00 |    NULL | Admin    |
+|  7934 | MILLER | 2850.00 |    NULL | Hr       |
++-------+--------+---------+---------+----------+
+14 rows in set (0.00 sec)
+31}
+create table mydept_DBDA
+(
+deptid int primary key,
+dname varchar(20) not null unique,
+dloc varchar(20)
+)
+insert into mydept_DBDA values(30,'Purchase','Mumbai');
+
+create table myemployee
+(
+empno int primary key,
+fname varchar(15) not null,
+mname varchar(15),
+lname varchar(15) not null,
+sal float(9,2) check(sal >=1000),
+doj date,
+passportnum varchar(15) unique,
+deptno int,
+constraint fk_deptno foreign key(deptno) references mydept_DBDA(deptid) on
+delete set null
+on update cascade
+)
+32}
+
+CREATE TABLE Student (
+    sid INT UNSIGNED PRIMARY KEY,
+    sname VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Course (
+    cid INT UNSIGNED PRIMARY KEY,
+    cname VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Marks (
+    studid INT UNSIGNED,
+    courseid INT UNSIGNED,
+    marks INT,
+    PRIMARY KEY (studid, courseid),
+    CONSTRAINT fk_studid FOREIGN KEY (studid) REFERENCES Student(sid) ON DELETE CASCADE,
+    CONSTRAINT fk_courseid FOREIGN KEY (courseid) REFERENCES Course(cid)
+);
+33}
+create table emp10 as
+(
+select *
+from emp
+where 1=2;
+);
+
+34}
+ALTER TABLE emp
+MODIFY empno int primary key;
+
+
+mysql> ALTER TABLE emp
+    -> ADD CONSTRAINT fk_new_deptno FOREIGN KEY (deptno) REFERENCES dept(deptno);
+35}
+
+update emp
+set sal = sal*1.15 + ifnull(comm,0);
+
+UPDATE EMP
+SET JOB = 'MANAGER', MGR = 7777
+WHERE DEPTNO = 10;
+36} 
+
+mysql> update emp set job="CLERK" where ename="SMITH";
+
+37}
+
+mysql> update emp set sal = sal*1.15 + ifnull(comm,0) where comm is not null;
+
+38}
+
+mysql> select * from emp where sal > all (select sal from emp where ename="SMITH");
+
+39}
+mysql> select * from emp
+    -> where deptno=(select deptno from emp where ename="SMITH");
